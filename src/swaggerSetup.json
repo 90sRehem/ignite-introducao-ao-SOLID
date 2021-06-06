@@ -1,0 +1,285 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Introdução ao sólide",
+        "description": "This is an API Introdução ao sólide",
+        "version": "1.0.0",
+        "contact": {
+            "email": "fernandomarca@hotmail.com"
+        }
+    },
+    "components": {
+        "schemas": {
+            "userRequest": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "email"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                }
+            },
+            "user": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    },
+                    "admin": {
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": "1c747ce1-e6f7-4e32-864d-2ed04ee4f43b",
+                    "created_at": "2021-04-29T02:30:17.125Z",
+                    "updated_at": "2021-04-29T02:30:17.125Z",
+                    "admin": false,
+                    "name": "Jhon Doe",
+                    "email": "jhondoe@example.com"
+                }
+            },
+            "userAdmin": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    },
+                    "admin": {
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "type": "string"
+                    }
+                },
+                "example": {
+                    "id": "1c747ce1-e6f7-4e32-864d-2ed04ee4f43b",
+                    "created_at": "2021-04-29T02:30:17.125Z",
+                    "updated_at": "2021-04-29T02:30:17.125Z",
+                    "admin": true,
+                    "name": "Jhon Doe",
+                    "email": "jhondoe@example.com"
+                }
+            }
+        },
+        "examples": {}
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a User",
+                "description": "Create a new User",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/userRequest"
+                            },
+                            "example": {
+                                "name": "Jhon Doe",
+                                "email": "jhondoe@example.com"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user/example"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Create user Error!"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "An Admin can List Users",
+                "description": "An Admin can List Users",
+                "operationId": "getAllUsers",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "description": "Required id of Admin User",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1c747ce1-e6f7-4e32-864d-2ed04ee4f43b"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                },
+                                "example": [
+                                    {
+                                        "id": "1c747ce1-e6f7-4e32-864d-2ed04ee4f43b",
+                                        "created_at": "2021-04-29T02:30:17.125Z",
+                                        "updated_at": "2021-04-29T02:30:17.125Z",
+                                        "admin": false,
+                                        "name": "Jhon Doe",
+                                        "email": "jhondoe@example.com"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "permission denied!",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "permission denied!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Profile User",
+                "description": "Profile User",
+                "operationId": "getUserProfile",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "Required id of User",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1c747ce1-e6f7-4e32-864d-2ed04ee4f43b"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "permission denied!",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "permission denied!"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not fund user",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "not fund user"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Turn User admin",
+                "description": "Turn User admin",
+                "operationId": "turnUserAdmin",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "Required id of User",
+                        "required": true,
+                        "explode": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "1c747ce1-e6f7-4e32-864d-2ed04ee4f43b"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/userAdmin"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "not fund user",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "error": "Not turn a user as admin!"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
